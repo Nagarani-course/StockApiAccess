@@ -1,7 +1,9 @@
 const stockModel = require("../models/stockModel.js");
 
 let fetchAllStockDetails = async () => {
-    return await stockModel.Stock.getAllStockDetails();
+    const stock = await stockModel.Stock.getAllStockDetails();
+    //console.log(stock)
+    return stock;
 }
 
 module.exports = { fetchAllStockDetails };
