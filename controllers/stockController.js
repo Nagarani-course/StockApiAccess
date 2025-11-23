@@ -1,4 +1,6 @@
+const { response } = require('express');
 const stockService = require('../services/stockServices.js');
+const url = require('url');
 
 let getAllStockDetails = async(request, response) => {
     try {
@@ -34,4 +36,17 @@ let getCount = async(request, response) => {
     }
 }
 
-module.exports = { getAllStockDetails, getAllStockNames, getCount };
+let storeStock = async(request, response) => {
+    try{
+       // const parsedUrl = url.parse(request.url, true); // true to parse query string into an object
+       // const queryParams = parsedUrl.query;
+       const result = stockService.saveStock(request.body);
+       console.log(result);
+       response.status(200).json( "Stock Stored: "+result );
+    } catch(error){
+        console.log(error);
+        response.status(404).json({ messsage: error });   
+    }
+}
+
+module.exports = { getAllStockDetails, getAllStockNames, getCount, storeStock };

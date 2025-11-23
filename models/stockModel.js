@@ -8,6 +8,7 @@ const finnApiKey = "d4c8eqpr01qudf6h50t0d4c8eqpr01qudf6h50tg";
 
 class Stock{
     constructor(symbol, price, volume){
+        console.log("Constr", symbol);
         this.symbol = symbol;
         this.price = price;
         this.volume = volume;
@@ -58,6 +59,17 @@ class Stock{
         }catch(error){
            console.error('Error fetching stock count in model...', error);
         }
+    }
+
+    async saveStock(stock){
+        try{
+            console.log("Storing stock count from the DB...");
+            const clientdb =await dbconfig.ConnectDB();
+            const result = clientdb.collection('StockPurchase').insertOne(stock);
+            return result;
+        }catch(error){
+            console.error('Error storing stock in model...', error);
+         }
     }
 }
 
