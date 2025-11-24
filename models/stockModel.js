@@ -22,8 +22,9 @@ class Stock{
         const clientdb = await dbconfig.ConnectDB();
         // to drop existing collections to update live data
         clientdb.collection('StockSymbols').drop();
-        const result = clientdb.collection('StockSymbols').insertMany(symbols.data);
-        console.log('inserted..', result);
+        clientdb.collection('StockSymbols').insertMany(symbols.data);
+        console.log('inserted..');
+        const result = clientdb.collection('StockSymbols').find({}).toArray();
         return result;
         }catch(error){
            console.error('Error fetching Symbols in model...', error);
@@ -69,7 +70,29 @@ class Stock{
             return result;
         }catch(error){
             console.error('Error storing stock in model...', error);
-         }
+        }
+    }
+
+    async getOneStockDetails(description){
+        try{
+        const clientdb = await dbconfig.ConnectDB();
+        console.log("Fetching one stocks count from the DB..."+ description);
+        const oneStock = clientdb.collection('StockSymbols').findOne({ description });
+        return oneStock;
+        }catch(error){
+           console.error('Error fetching one stock in model...', error);
+        }
+    }
+
+    async getStockPurchase(symbol){
+        try{
+        const clientdb = await dbconfig.ConnectDB();
+        console.log("Fetching one stocks purchase from the DB..."+ symbol);
+        const stockPurchase = clientdb.collection('StockPurchase').findOne({ symbol });
+        return stockPurchase;
+        }catch(error){
+           console.error('Error fetching one stock purchase in model...', error);
+        }
     }
 }
 

@@ -19,4 +19,15 @@ let saveStock = async (stock) => {
     const result = await stockModel.Stock.saveStock(stock);
     return result ;
 }
-module.exports = { fetchAllStockDetails, fetchAllStockNames, fetchStockCount, saveStock };
+
+let fetchOneStock = async (description) => {
+    const result = await stockModel.Stock.getOneStockDetails(description);
+    return result ;
+}
+
+let fetchPurchaseDetail = async (symbol) => {
+    const result = await stockModel.Stock.getStockPurchase(symbol);
+    return result ;
+}
+
+module.exports = { fetchAllStockDetails, fetchAllStockNames, fetchStockCount, saveStock, fetchOneStock, fetchPurchaseDetail };

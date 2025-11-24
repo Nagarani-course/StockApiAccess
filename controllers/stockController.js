@@ -6,7 +6,8 @@ let getAllStockDetails = async(request, response) => {
     try {
         console.log("Inside controller: fetching all stcoks...");
         const stocks = await stockService.fetchAllStockDetails();
-        response.status(200).json( "stocks instered successfully" );
+        console.log( "stocks instered successfully" );
+        response.status(200).json( stocks );
     } catch(error) {
         console.log(error);
         response.status(200).json({ messsage: "Error Fetching Stocks in controller...", data: error.messsage });   
@@ -38,8 +39,6 @@ let getCount = async(request, response) => {
 
 let storeStock = async(request, response) => {
     try{
-       // const parsedUrl = url.parse(request.url, true); // true to parse query string into an object
-       // const queryParams = parsedUrl.query;
        const result = stockService.saveStock(request.body);
        console.log(result);
        response.status(200).json( "Stock Stored: "+result );
@@ -49,4 +48,33 @@ let storeStock = async(request, response) => {
     }
 }
 
-module.exports = { getAllStockDetails, getAllStockNames, getCount, storeStock };
+
+let getOneStockDetails = async(request, response) => {
+    try {
+        console.log('welcome');
+        const parsedUrl = url.parse(request.url, true); // true to parse query string into an object
+        const queryParams = parsedUrl.query;
+        console.log("Inside controller: fetching all stcoks count...");
+        const stockDetail = await stockService.fetchOneStock(queryParams.description);
+        
+        response.status(200).json( stockDetail );
+    } catch(error) {
+        console.log(error);
+        response.status(404).json({ messsage: "Error Fetching Stock in controller...", data: error.messsage });   
+    }
+}
+
+let getStockPurchaseDetiail = async(request, response) => {
+    try {
+        const parsedUrl = url.parse(request.url, true); // true to parse query string into an object
+        const queryParams = parsedUrl.query;
+        console.log("Inside controller: fetching all stcoks count...");
+        const purchaseDetail = await stockService.fetchPurchaseDetail(queryParams.symbol);
+        response.status(200).json( purchaseDetail );
+    } catch(error) {
+        console.log(error);
+        response.status(404).json({ messsage: "Error Fetching Stock Purchase in controller...", data: error.messsage });   
+    }
+}
+
+module.exports = { getAllStockDetails, getAllStockNames, getCount, storeStock, getOneStockDetails, getStockPurchaseDetiail };
